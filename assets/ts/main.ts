@@ -135,8 +135,8 @@ export default class Game {
             const sprtIndex = Number(Game.dragged.dataset.index);
             const sprtArray = String(Game.dragged.dataset.array);
             const scrollTop = Game.dragged.parentElement ? Game.dragged.parentElement.scrollTop : 0;
-            const x = (e.offsetX - Game.dragEvent.clientX + Game.dragged.offsetLeft) / this.scale;
-            const y = (e.offsetY - Game.dragEvent.clientY + Game.dragged.offsetTop - scrollTop) / this.scale;
+            const x = Math.round((e.offsetX - Game.dragEvent.clientX + Game.dragged.offsetLeft) / this.scale);
+            const y = Math.round((e.offsetY - Game.dragEvent.clientY + Game.dragged.offsetTop - scrollTop) / this.scale);
 
             switch(sprtArray) {
                 case 'wall':
@@ -185,6 +185,11 @@ export default class Game {
                     Game.elements.push(new Element(x, y, sprtPl.width, sprtPl.height, namePl, 'enemy', sprtPl));
                     break;
             }
+        });
+        this.canvas.addEventListener('mousedown', (e) => {
+            console.log(e);
+            console.log(e.offsetX / this.scale);
+            console.log(e.offsetY / this.scale);
         });
     }
 
