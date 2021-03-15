@@ -85,6 +85,16 @@ export default class Game {
         this.context2D.fillRect(0, 0, WIDTH * this.scale, HEIGHT * this.scale);
         this.context2D.scale(this.scale, this.scale);
         this.context2D.imageSmoothingEnabled = false;
+        this.context2D.strokeStyle = 'rgba(187, 128, 130, 0.4)';
+        for(let x = TILE_SIZE; x <= WIDTH; x += TILE_SIZE) {
+            this.context2D.moveTo(x, 0);
+            this.context2D.lineTo(x, HEIGHT);
+        }
+        for(let y = TILE_SIZE; y <= WIDTH; y += TILE_SIZE) {
+            this.context2D.moveTo(0, y);
+            this.context2D.lineTo(WIDTH, y);
+        }
+        this.context2D.stroke();
     }
 
     private determineScale() {
