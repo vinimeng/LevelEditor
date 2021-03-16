@@ -3,12 +3,19 @@ import { GameState, HEIGHT, TILE_SIZE, WIDTH } from './misc/constants';
 import HTML from './misc/html';
 import Element from './world/element';
 
+export type DiffMouseCoord = {
+    diffX: number,
+    diffY: number
+};
+
 export default class Game {
     public static elements = new Array<Element>();
     public static dragged: HTMLCanvasElement;
+    public static canvasDragged: Element | null;
+    public static mouseDown: DiffMouseCoord | null;
     public static dragEvent: DragEvent;
+    public static scale: number;
     public spritesheet: Spritesheet;
-    public scale: number;
     public state: GameState;
     private isRunning: boolean;
     private appDiv : HTMLDivElement;
@@ -23,12 +30,15 @@ export default class Game {
         this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
         this.context2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
 
-        this.scale = this.determineScale();
+        Game.scale = this.determineScale();
         this.state = GameState.PLAY;
 
-        this.html = new HTML(this.scale);
+        this.html = new HTML(Game.scale);
 
         this.isRunning = false;
+
+        Game.canvasDragged = null;
+        Game.mouseDown = null;
     }
 
     public async main() {
@@ -36,6 +46,7 @@ export default class Game {
         this.html.createElements();
         this.initializeEvents();
         this.adjustCanvas();
+        this.drawBackground();
         this.run();
     }
 
@@ -79,22 +90,16 @@ export default class Game {
     }
 
     private adjustCanvas() {
-        this.canvas.width = WIDTH * this.scale;
-        this.canvas.height = HEIGHT * this.scale;
-        this.context2D.fillStyle = 'black';
-        this.context2D.fillRect(0, 0, WIDTH * this.scale, HEIGHT * this.scale);
-        this.context2D.scale(this.scale, this.scale);
+        this.canvas.width = WIDTH * Game.scale;
+        this.canvas.height = HEIGHT * Game.scale;
+        this.context2D.scale(Game.scale, Game.scale);
         this.context2D.imageSmoothingEnabled = false;
-        this.context2D.strokeStyle = 'rgba(187, 128, 130, 0.4)';
-        for(let x = TILE_SIZE; x <= WIDTH; x += TILE_SIZE) {
-            this.context2D.moveTo(x, 0);
-            this.context2D.lineTo(x, HEIGHT);
-        }
-        for(let y = TILE_SIZE; y <= WIDTH; y += TILE_SIZE) {
-            this.context2D.moveTo(0, y);
-            this.context2D.lineTo(WIDTH, y);
-        }
-        this.context2D.stroke();
+    }
+
+    private drawBackground() {
+        this.context2D.fillStyle = 'black';
+        this.context2D.fillRect(0, 0, WIDTH, HEIGHT);
+        this.context2D.drawImage(Spritesheet.grid, 0, 0, WIDTH, HEIGHT);
     }
 
     private determineScale() {
@@ -124,7 +129,7 @@ export default class Game {
 
     private initializeEvents() {
         window.addEventListener('resize', () => {
-            this.scale = this.determineScale();
+            Game.scale = this.determineScale();
             this.adjustCanvas();
         });
         this.canvas.addEventListener('dragover', (e) => {
@@ -135,8 +140,8 @@ export default class Game {
             const sprtIndex = Number(Game.dragged.dataset.index);
             const sprtArray = String(Game.dragged.dataset.array);
             const scrollTop = Game.dragged.parentElement ? Game.dragged.parentElement.scrollTop : 0;
-            const x = Math.round((e.offsetX - Game.dragEvent.clientX + Game.dragged.offsetLeft) / this.scale);
-            const y = Math.round((e.offsetY - Game.dragEvent.clientY + Game.dragged.offsetTop - scrollTop) / this.scale);
+            const x = Math.round((e.offsetX - Game.dragEvent.clientX + Game.dragged.offsetLeft) / Game.scale);
+            const y = Math.round((e.offsetY - Game.dragEvent.clientY + Game.dragged.offsetTop - scrollTop) / Game.scale);
 
             switch(sprtArray) {
                 case 'wall':
@@ -187,9 +192,49 @@ export default class Game {
             }
         });
         this.canvas.addEventListener('mousedown', (e) => {
-            console.log(e);
-            console.log(e.offsetX / this.scale);
-            console.log(e.offsetY / this.scale);
+            const mouseX = e.offsetX / Game.scale;
+            const mouseY = e.offsetY / Game.scale;
+
+            for(let i = Game.elements.length - 1; i >= 0; i--) {
+                const element = Game.elements[i];
+                const x = element.x;
+                const y = element.y;
+                const outerX = element.x + element.width;
+                const outerY = element.y + element.height;
+
+                if(
+                    (mouseX >= x && mouseX <= outerX) &&
+                    (mouseY >= y && mouseY <= outerY)
+                ) {
+                    Game.canvasDragged = element;
+                    Game.mouseDown = {diffX: x - mouseX, diffY: y - mouseY};
+                    break;
+                }
+            }
+        });
+        this.canvas.addEventListener('mousemove', (e) => {
+            if(Game.mouseDown) {
+                const mouseX = (e.offsetX / Game.scale) + Game.mouseDown.diffX;
+                const mouseY = (e.offsetY / Game.scale) + Game.mouseDown.diffY;
+                if(Game.canvasDragged) {
+                    Game.canvasDragged.x = mouseX;
+                    Game.canvasDragged.y = mouseY;
+                    this.drawBackground();
+                }
+            }
+        });
+        this.canvas.addEventListener('mouseup', (e) => {
+            if(Game.mouseDown) {
+                const mouseX = (e.offsetX / Game.scale) + Game.mouseDown.diffX;
+                const mouseY = (e.offsetY / Game.scale) + Game.mouseDown.diffY;
+                if(Game.canvasDragged) {
+                    Game.canvasDragged.x = mouseX;
+                    Game.canvasDragged.y = mouseY;
+                    Game.mouseDown = null;
+                    Game.canvasDragged = null;
+                    this.drawBackground();
+                }
+            }
         });
     }
 

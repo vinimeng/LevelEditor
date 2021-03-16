@@ -1,4 +1,5 @@
-import { SPRITESHEET } from "../misc/constants";
+import Game from "../main";
+import { SPRITESHEET, TILE_SIZE } from "../misc/constants";
 import { SPRITESCOORD } from "./spritesheet.cheatsheet";
 
 export type Sprite = {
@@ -16,9 +17,13 @@ export default class Spritesheet {
     public static potion = new Array<Sprite>();
     public static enemy = new Array<Sprite>();
     public static player: Sprite;
+    public static grid: HTMLImageElement;
 
     public async loadSprites() {
         const spritesheet = await this.setSpritesheet();
+
+        Spritesheet.grid = await this.setGrid();
+
         let sprite = await this.cutSprite(spritesheet, SPRITESCOORD.player[0], SPRITESCOORD.player[1], SPRITESCOORD.player[2], SPRITESCOORD.player[3]);
         Spritesheet.player = {
             name: 'player',
@@ -98,12 +103,35 @@ export default class Spritesheet {
         }
     }
 
-    private setSpritesheet() : Promise<HTMLImageElement>{
+    private setSpritesheet() : Promise<HTMLImageElement> {
         const spritesheet = document.createElement('img');
         return new Promise((resolve, reject) => {
             spritesheet.onload = () => resolve(spritesheet);
             spritesheet.onerror = reject;
             spritesheet.src = SPRITESHEET;
+        });
+    }
+
+    private setGrid() : Promise<HTMLImageElement> {
+        const img = document.createElement('img');
+        const size = TILE_SIZE * Game.scale;
+        const svg = new Blob([
+            `
+                <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                    <pattern id="grid" width="${size}" height="${size}" patternUnits="userSpaceOnUse">
+                        <path d="M ${size} 0 L 0 0 0 ${size}" fill="none" stroke="rgba(187, 128, 130, 0.4)" stroke-width="1"/>
+                    </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)"/>
+                </svg>
+            `
+        ], {type: 'image/svg+xml;charset=utf-8'});
+        const url = window.URL.createObjectURL(svg);
+        return new Promise((resolve, reject) => {
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = url;
         });
     }
 
