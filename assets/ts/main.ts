@@ -51,15 +51,16 @@ export default class Game {
     }
 
     private tick() {
-        Game.elements.forEach((element, index) => {
-            element.tick();
-        });
+        for(let i = 0; i < Game.elements.length; i ++) {
+            Game.elements[i].tick();
+        }
     }
 
     private render() {
-        Game.elements.forEach((element, index) => {
-            element.render(this.context2D);
-        });
+        this.drawBackground();
+        for(let i = 0; i < Game.elements.length; i ++) {
+            Game.elements[i].render(this.context2D);
+        }
     }
 
     private run() {
@@ -208,6 +209,7 @@ export default class Game {
                 ) {
                     Game.canvasDragged = element;
                     Game.mouseDown = {diffX: x - mouseX, diffY: y - mouseY};
+                    element.drawWithOpacity = true;
                     break;
                 }
             }
@@ -219,7 +221,6 @@ export default class Game {
                 if(Game.canvasDragged) {
                     Game.canvasDragged.x = mouseX;
                     Game.canvasDragged.y = mouseY;
-                    this.drawBackground();
                 }
             }
         });
@@ -230,9 +231,9 @@ export default class Game {
                 if(Game.canvasDragged) {
                     Game.canvasDragged.x = mouseX;
                     Game.canvasDragged.y = mouseY;
+                    Game.canvasDragged.drawWithOpacity = false;
                     Game.mouseDown = null;
                     Game.canvasDragged = null;
-                    this.drawBackground();
                 }
             }
         });

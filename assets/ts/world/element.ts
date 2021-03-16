@@ -6,6 +6,7 @@ export default class Element {
     public height: number;
     public id: string;
     public type: string;
+    public drawWithOpacity: boolean;
     private sprite: ImageBitmap;
 
     constructor(
@@ -24,6 +25,7 @@ export default class Element {
         this.id = id;
         this.type = type;
         this.sprite = sprite;
+        this.drawWithOpacity = false;
     }
 
     public tick() {
@@ -31,6 +33,12 @@ export default class Element {
     }
 
     public render(context2D: CanvasRenderingContext2D) {
-        context2D.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        if(this.drawWithOpacity) {
+            context2D.globalAlpha = 0.5;
+            context2D.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+            context2D.globalAlpha = 1;
+        } else {
+            context2D.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        }        
     }
 }
