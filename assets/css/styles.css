@@ -1,15 +1,16 @@
 @font-face {
-    font-family: EquipamentPro;
+    font-family: EquipmentPro;
     src: url('./../font/EquipmentPro.ttf') format('truetype');
 }
 
 body {
     background-color: #120e10;
-    font-family: 'EquipamentPro', sans-serif;
+    font-family: 'EquipmentPro', sans-serif;
 }
 
 #canvas {
     border: 5px #2c1e1e solid;
+    display: none;
 }
 
 .grid {
@@ -23,6 +24,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 #elements {
@@ -57,7 +59,7 @@ button {
     background: #2c1e1e;
     border: none;
     color: white;
-    font-family: 'EquipamentPro', sans-serif;
+    font-family: 'EquipmentPro', sans-serif;
     font-size: 18px;
 }
 
@@ -98,4 +100,28 @@ a {
     text-align: center;
     transform: translate(-50%, -50%);
     display: none;
+}
+
+#chooseResolution {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: rgba(211, 152, 153, 0.4);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    font-size: 18px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+input {
+    background-color: #2c1e1e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 5px;
+    font-family: 'EquipmentPro', sans-serif;
 }

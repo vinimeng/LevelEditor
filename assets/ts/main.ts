@@ -1,5 +1,5 @@
 import Spritesheet from './graphics/spritesheet';
-import { GameState, HEIGHT, TILE_SIZE, WIDTH } from './misc/constants';
+import { GameState } from './misc/constants';
 import HTML from './misc/html';
 import Element from './world/element';
 
@@ -15,6 +15,8 @@ export default class Game {
     public static mouseDown: DiffMouseCoord | null;
     public static dragEvent: DragEvent;
     public static scale: number;
+    public static WIDTH: number;
+    public static HEIGHT: number;
     public spritesheet: Spritesheet;
     public state: GameState;
     private isRunning: boolean;
@@ -23,7 +25,10 @@ export default class Game {
     private context2D: CanvasRenderingContext2D;
     private html: HTML;
 
-    constructor() {
+    constructor(width: number, height: number) {
+        Game.WIDTH = width;
+        Game.HEIGHT = height;
+        
         this.spritesheet = new Spritesheet();
 
         this.appDiv = document.getElementById('app') as HTMLDivElement;
@@ -91,28 +96,28 @@ export default class Game {
     }
 
     private adjustCanvas() {
-        this.canvas.width = WIDTH * Game.scale;
-        this.canvas.height = HEIGHT * Game.scale;
+        this.canvas.width = Game.WIDTH * Game.scale;
+        this.canvas.height = Game.HEIGHT * Game.scale;
         this.context2D.scale(Game.scale, Game.scale);
         this.context2D.imageSmoothingEnabled = false;
     }
 
     private drawBackground() {
         this.context2D.fillStyle = 'black';
-        this.context2D.fillRect(0, 0, WIDTH, HEIGHT);
-        this.context2D.drawImage(Spritesheet.grid, 0, 0, WIDTH, HEIGHT);
+        this.context2D.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        this.context2D.drawImage(Spritesheet.grid, 0, 0, Game.WIDTH, Game.HEIGHT);
     }
 
     private determineScale() {
         const divWidth = this.appDiv.offsetWidth;
         const divHeight = this.appDiv.offsetHeight;
 
-        let finalScale = divWidth / WIDTH;
+        let finalScale = divWidth / Game.WIDTH;
 
         if(finalScale >= 1) {
             finalScale = Math.floor(finalScale);
-            if(WIDTH * finalScale > divWidth
-                || HEIGHT * finalScale > divHeight) {
+            if(Game.WIDTH * finalScale > divWidth
+                || Game.HEIGHT * finalScale > divHeight) {
                 finalScale = finalScale - 1;
             }
         } 
@@ -244,5 +249,17 @@ export default class Game {
     }
 }
 
-const game = new Game();
-game.main();
+document.getElementById('btnCreateMap')?.addEventListener('click', () => {
+    const divInputs = document.getElementById('chooseResolution') as HTMLDivElement;
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const inputWidth = document.getElementById('width') as HTMLInputElement;
+    const inputHeight = document.getElementById('height') as HTMLInputElement;
+    const width = parseInt(inputWidth.value);
+    const height = parseInt(inputHeight.value);
+
+    if(width && height) {
+        divInputs.style.display = 'none';
+        canvas.style.display = 'block';
+        new Game(width, height).main();
+    }
+});
