@@ -1,5 +1,5 @@
 import Spritesheet from './graphics/spritesheet';
-import { GameState } from './misc/constants';
+import { GameState, HEIGHT, WIDTH } from './misc/constants';
 import HTML from './misc/html';
 import Element from './world/element';
 
@@ -21,6 +21,7 @@ export default class Game {
     public state: GameState;
     private isRunning: boolean;
     private appDiv : HTMLDivElement;
+    private divCanvas : HTMLDivElement;
     private canvas: HTMLCanvasElement;
     private context2D: CanvasRenderingContext2D;
     private html: HTML;
@@ -32,6 +33,7 @@ export default class Game {
         this.spritesheet = new Spritesheet();
 
         this.appDiv = document.getElementById('app') as HTMLDivElement;
+        this.divCanvas = document.getElementById('divCanvas') as HTMLDivElement;
         this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
         this.context2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
 
@@ -96,6 +98,8 @@ export default class Game {
     }
 
     private adjustCanvas() {
+        this.divCanvas.style.width = (WIDTH * Game.scale) + 'px';
+        this.divCanvas.style.height = (HEIGHT * Game.scale) + 'px';
         this.canvas.width = Game.WIDTH * Game.scale;
         this.canvas.height = Game.HEIGHT * Game.scale;
         this.context2D.scale(Game.scale, Game.scale);
@@ -112,12 +116,12 @@ export default class Game {
         const divWidth = this.appDiv.offsetWidth;
         const divHeight = this.appDiv.offsetHeight;
 
-        let finalScale = divWidth / Game.WIDTH;
+        let finalScale = divWidth / WIDTH;
 
         if(finalScale >= 1) {
             finalScale = Math.floor(finalScale);
-            if(Game.WIDTH * finalScale > divWidth
-                || Game.HEIGHT * finalScale > divHeight) {
+            if(WIDTH * finalScale > divWidth
+                || HEIGHT * finalScale > divHeight) {
                 finalScale = finalScale - 1;
             }
         } 
@@ -273,7 +277,7 @@ export default class Game {
 document.getElementById('btnCreateMap')?.addEventListener('click', () => {
     const btnCredits = document.getElementById('btnCredits') as HTMLButtonElement;
     const divInputs = document.getElementById('chooseResolution') as HTMLDivElement;
-    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const divCanvas = document.getElementById('divCanvas') as HTMLCanvasElement;
     const inputWidth = document.getElementById('width') as HTMLInputElement;
     const inputHeight = document.getElementById('height') as HTMLInputElement;
     const width = parseInt(inputWidth.value);
@@ -282,7 +286,7 @@ document.getElementById('btnCreateMap')?.addEventListener('click', () => {
     if(width && height) {
         btnCredits.style.display = 'block';
         divInputs.style.display = 'none';
-        canvas.style.display = 'block';
+        divCanvas.style.display = 'flex';
         new Game(width, height).main();
     }
 });

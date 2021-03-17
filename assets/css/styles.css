@@ -8,11 +8,6 @@ body {
     font-family: 'EquipmentPro', sans-serif;
 }
 
-#canvas {
-    border: 5px #2c1e1e solid;
-    display: none;
-}
-
 .grid {
     display: flex;
     width: 100%;
@@ -125,4 +120,12 @@ input {
     font-size: 16px;
     padding: 5px;
     font-family: 'EquipmentPro', sans-serif;
+}
+
+#divCanvas {
+    border: 5px #2c1e1e solid;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    display: none;
 }
