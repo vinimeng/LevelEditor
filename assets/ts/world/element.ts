@@ -8,6 +8,7 @@ export default class Element {
     public type: string;
     public drawWithOpacity: boolean;
     private sprite: ImageBitmap;
+    public index: number;
 
     constructor(
         x: number,
@@ -16,7 +17,8 @@ export default class Element {
         height: number, 
         id: string, 
         type: string, 
-        sprite: ImageBitmap
+        sprite: ImageBitmap,
+        index: number
     ) {
         this.x = x;
         this.y = y;
@@ -25,6 +27,7 @@ export default class Element {
         this.id = id;
         this.type = type;
         this.sprite = sprite;
+        this.index = index;
         this.drawWithOpacity = false;
     }
 

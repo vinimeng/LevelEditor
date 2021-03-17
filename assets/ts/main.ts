@@ -51,6 +51,122 @@ export default class Game {
     public async main() {
         await this.loadAssets();
         this.html.createElements();
+        let tempData = window.localStorage.getItem('tempData');
+        if (tempData) {
+            let json = JSON.parse(tempData);
+            for(let element in json) {
+                switch(String(json[element].type)) {
+                    case 'wall':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.wall[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'floor':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.floor[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'interactable':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.interactable[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'interactableAnim':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.interactableAnim[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'doors':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.doors[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'weapon':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.weapon[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'potion':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.potion[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'enemy':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.enemy[parseInt(json[element].index)].sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                    case 'player':
+                        Game.elements.push(new Element(
+                            parseInt(json[element].x),
+                            parseInt(json[element].y),
+                            parseInt(json[element].width),
+                            parseInt(json[element].height),
+                            String(json[element].id),
+                            String(json[element].type),
+                            Spritesheet.player.sprite,
+                            parseInt(json[element].x)
+                        ));
+                        break;
+                }              
+            }
+        }
         this.initializeEvents();
         this.adjustCanvas();
         this.drawBackground();
@@ -157,47 +273,47 @@ export default class Game {
                 case 'wall':
                     const nameW = Spritesheet.wall[sprtIndex].name;
                     const sprtW = Spritesheet.wall[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtW.width, sprtW.height, nameW, 'wall', sprtW));
+                    Game.elements.push(new Element(x, y, sprtW.width, sprtW.height, nameW, 'wall', sprtW, sprtIndex));
                     break;
                 case 'floor':
                     const nameF = Spritesheet.floor[sprtIndex].name;
                     const sprtF = Spritesheet.floor[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtF.width, sprtF.height, nameF, 'floor', sprtF));
+                    Game.elements.push(new Element(x, y, sprtF.width, sprtF.height, nameF, 'floor', sprtF, sprtIndex));
                     break;
                 case 'interactable':
                     const nameI = Spritesheet.interactable[sprtIndex].name;
                     const sprtI = Spritesheet.interactable[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtI.width, sprtI.height, nameI, 'interactable', sprtI));
+                    Game.elements.push(new Element(x, y, sprtI.width, sprtI.height, nameI, 'interactable', sprtI, sprtIndex));
                     break;
                 case 'interactableAnim':
                     const nameIA = Spritesheet.interactableAnim[sprtIndex].name;
                     const sprtIA = Spritesheet.interactableAnim[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtIA.width, sprtIA.height, nameIA, 'interactableAnim', sprtIA));
+                    Game.elements.push(new Element(x, y, sprtIA.width, sprtIA.height, nameIA, 'interactableAnim', sprtIA, sprtIndex));
                     break;
                 case 'doors':
                     const nameD = Spritesheet.doors[sprtIndex].name;
                     const sprtD = Spritesheet.doors[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtD.width, sprtD.height, nameD, 'doors', sprtD));
+                    Game.elements.push(new Element(x, y, sprtD.width, sprtD.height, nameD, 'doors', sprtD, sprtIndex));
                     break;
                 case 'weapon':
                     const nameWe = Spritesheet.weapon[sprtIndex].name;
                     const sprtWe = Spritesheet.weapon[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtWe.width, sprtWe.height, nameWe, 'weapon', sprtWe));
+                    Game.elements.push(new Element(x, y, sprtWe.width, sprtWe.height, nameWe, 'weapon', sprtWe, sprtIndex));
                     break;
                 case 'potion':
                     const nameP = Spritesheet.potion[sprtIndex].name;
                     const sprtP = Spritesheet.potion[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtP.width, sprtP.height, nameP, 'potion', sprtP));
+                    Game.elements.push(new Element(x, y, sprtP.width, sprtP.height, nameP, 'potion', sprtP, sprtIndex));
                     break;
                 case 'enemy':
                     const nameE = Spritesheet.enemy[sprtIndex].name;
                     const sprtE = Spritesheet.enemy[sprtIndex].sprite;
-                    Game.elements.push(new Element(x, y, sprtE.width, sprtE.height, nameE, 'enemy', sprtE));
+                    Game.elements.push(new Element(x, y, sprtE.width, sprtE.height, nameE, 'enemy', sprtE, sprtIndex));
                     break;
                 case 'player':
                     const namePl = Spritesheet.player.name;
                     const sprtPl = Spritesheet.player.sprite;
-                    Game.elements.push(new Element(x, y, sprtPl.width, sprtPl.height, namePl, 'enemy', sprtPl));
+                    Game.elements.push(new Element(x, y, sprtPl.width, sprtPl.height, namePl, 'enemy', sprtPl, sprtIndex));
                     break;
             }
         });
@@ -267,6 +383,9 @@ export default class Game {
                 }
             }
         });
+        window.setInterval(() => {
+            window.localStorage.setItem('tempData', JSON.stringify(Game.elements));
+        }, 15000);
     }
 
     private async loadAssets() {
