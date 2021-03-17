@@ -85,6 +85,7 @@ a {
     padding-left: 8px;
     padding-right: 8px;
     padding-top: 5px;
+    display: none;
 }
 
 #modalCredits {

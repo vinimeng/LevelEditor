@@ -242,6 +242,27 @@ export default class Game {
                 }
             }
         });
+        this.canvas.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            const mouseX = e.offsetX / Game.scale;
+            const mouseY = e.offsetY / Game.scale;
+
+            for(let i = Game.elements.length - 1; i >= 0; i--) {
+                const element = Game.elements[i];
+                const x = element.x;
+                const y = element.y;
+                const outerX = element.x + element.width;
+                const outerY = element.y + element.height;
+
+                if(
+                    (mouseX >= x && mouseX <= outerX) &&
+                    (mouseY >= y && mouseY <= outerY)
+                ) {
+                    Game.elements.splice(i, 1);
+                    break;
+                }
+            }
+        });
     }
 
     private async loadAssets() {
@@ -250,6 +271,7 @@ export default class Game {
 }
 
 document.getElementById('btnCreateMap')?.addEventListener('click', () => {
+    const btnCredits = document.getElementById('btnCredits') as HTMLButtonElement;
     const divInputs = document.getElementById('chooseResolution') as HTMLDivElement;
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const inputWidth = document.getElementById('width') as HTMLInputElement;
@@ -258,6 +280,7 @@ document.getElementById('btnCreateMap')?.addEventListener('click', () => {
     const height = parseInt(inputHeight.value);
 
     if(width && height) {
+        btnCredits.style.display = 'block';
         divInputs.style.display = 'none';
         canvas.style.display = 'block';
         new Game(width, height).main();
