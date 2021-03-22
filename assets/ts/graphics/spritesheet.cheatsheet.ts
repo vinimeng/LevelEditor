@@ -1,4 +1,4 @@
-export const SPRITESCOORD: any = {
+export const CHEATSHEET: any = {
     'wall': {
         'wall_top_left': [16, 0, 16, 16],
         'wall_top_mid': [16, 0, 16, 16],
@@ -7,18 +7,6 @@ export const SPRITESCOORD: any = {
         'wall_mid': [32, 16, 16, 16],
         'wall_right': [48, 16, 16, 16],
         'wall_fountain_top': [64, 0, 16, 16],
-        'wall_fountain_mid_red_anim_1': [64, 16, 16, 16],
-        'wall_fountain_mid_red_anim_2': [80, 16, 16, 16],
-        'wall_fountain_mid_red_anim_3': [96, 16, 16, 16],
-        'wall_fountain_basin_red_anim_1': [64, 32, 16, 16],
-        'wall_fountain_basin_red_anim_2': [80, 32, 16, 16],
-        'wall_fountain_basin_red_anim_3': [96, 32, 16, 16],
-        'wall_fountain_mid_blue_anim_1': [64, 48, 16, 16],
-        'wall_fountain_mid_blue_anim_2': [80, 48, 16, 16],
-        'wall_fountain_mid_blue_anim_3': [96, 48, 16, 16],
-        'wall_fountain_basin_blue_anim_1': [64, 64, 16, 16],
-        'wall_fountain_basin_blue_anim_2': [80, 64, 16, 16],
-        'wall_fountain_basin_blue_anim_3': [96, 64, 16, 16],
         'wall_hole_1': [48, 32, 16, 16],
         'wall_hole_2': [48, 48, 16, 16],
         'wall_banner_red': [16, 32, 16, 16],
@@ -53,6 +41,12 @@ export const SPRITESCOORD: any = {
         'column_top': [80, 80, 16, 16],
         'column_mid': [80, 96, 16, 16],
         'column_base': [80, 112, 16, 16],
+    },
+    'wall_anim': {
+        'wall_fountain_mid_red': [64, 16, 16, 16],
+        'wall_fountain_basin_red': [64, 32, 16, 16],
+        'wall_fountain_mid_blue': [64, 48, 16, 16],
+        'wall_fountain_basin_blue': [64, 64, 16, 16],
     },
     'floor': {
         'floor_1': [16, 64, 16, 16],

@@ -6,7 +6,7 @@ export default class Element {
     public height: number;
     public id: string;
     public type: string;
-    public drawWithOpacity: boolean;
+    public drawWithHalfOpacity: boolean;
     private sprite: ImageBitmap;
     public index: number;
 
@@ -28,7 +28,7 @@ export default class Element {
         this.type = type;
         this.sprite = sprite;
         this.index = index;
-        this.drawWithOpacity = false;
+        this.drawWithHalfOpacity = false;
     }
 
     public tick() {
@@ -36,7 +36,7 @@ export default class Element {
     }
 
     public render(context2D: CanvasRenderingContext2D) {
-        if(this.drawWithOpacity) {
+        if(this.drawWithHalfOpacity) {
             context2D.globalAlpha = 0.5;
             context2D.drawImage(this.sprite, this.x, this.y, this.width, this.height);
             context2D.globalAlpha = 1;

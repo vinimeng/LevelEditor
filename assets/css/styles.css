@@ -110,6 +110,7 @@ a {
     font-size: 20px;
     text-align: center;
     transform: translate(-50%, -50%);
+    display: none;
 }
 
 input {
@@ -127,5 +128,20 @@ input {
     overflow: auto;
     justify-content: center;
     align-items: center;
+    display: none;
+}
+
+#unsavedData {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: rgba(211, 152, 153, 0.4);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    font-size: 20px;
+    text-align: center;
+    transform: translate(-50%, -50%);
     display: none;
 }

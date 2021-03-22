@@ -1,5 +1,5 @@
-import Spritesheet, { Sprite } from "../graphics/spritesheet";
-import Game from "../main";
+import Spritesheet, { Sprite } from "../graphics/graphics";
+import Game from "../game/game";
 
 export default class HTML {
     public spanFPS: HTMLSpanElement;
@@ -43,6 +43,7 @@ export default class HTML {
     }
 
     public createElements() {
+
         const divBreakWallBefore = document.createElement('div');
         divBreakWallBefore.className = 'break';
         const spanWall = document.createElement('span');
@@ -55,6 +56,20 @@ export default class HTML {
         Spritesheet.wall.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'wall');
         });
+
+        const divBreakWallAnimBefore = document.createElement('div');
+        divBreakWallAnimBefore.className = 'break';
+        const spanWallAnim = document.createElement('span');
+        spanWall.innerHTML = 'WallAnim:'
+        const divBreakWallAnimAfter = document.createElement('div');
+        divBreakWallAnimAfter.className = 'break';
+        this.elements.append(divBreakWallAnimBefore);
+        this.elements.append(spanWallAnim);
+        this.elements.append(divBreakWallAnimAfter);
+        Spritesheet.wall.forEach((sprite, index) => {
+            this.appendElements(sprite, index, 'wallAnim');
+        });
+
         const divBreakFloorBefore = document.createElement('div');
         divBreakFloorBefore.className = 'break';
         const spanFloor = document.createElement('span');
@@ -67,6 +82,7 @@ export default class HTML {
         Spritesheet.floor.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'floor');
         });
+
         const divBreakInteractableBefore = document.createElement('div');
         divBreakInteractableBefore.className = 'break';
         const spanInteractable = document.createElement('span');
@@ -79,6 +95,7 @@ export default class HTML {
         Spritesheet.interactable.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'interactable');
         });
+
         const divBreakInteractableAnimBefore = document.createElement('div');
         divBreakInteractableAnimBefore.className = 'break';
         const spanInteractableAnim = document.createElement('span');
@@ -91,6 +108,7 @@ export default class HTML {
         Spritesheet.interactableAnim.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'interactableAnim');
         });
+
         const divBreakDoorsBefore = document.createElement('div');
         divBreakDoorsBefore.className = 'break';
         const spanDoors = document.createElement('span');
@@ -103,6 +121,7 @@ export default class HTML {
         Spritesheet.doors.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'doors');
         });
+
         const divBreakWeaponBefore = document.createElement('div');
         divBreakWeaponBefore.className = 'break';
         const spanWeapon = document.createElement('span');
@@ -115,6 +134,7 @@ export default class HTML {
         Spritesheet.weapon.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'weapon');
         });
+
         const divBreakPotionBefore = document.createElement('div');
         divBreakPotionBefore.className = 'break';
         const spanPotion = document.createElement('span');
@@ -127,6 +147,7 @@ export default class HTML {
         Spritesheet.potion.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'potion');
         });
+
         const divBreakEnemyBefore = document.createElement('div');
         divBreakEnemyBefore.className = 'break';
         const spanEnemy = document.createElement('span');
@@ -139,6 +160,7 @@ export default class HTML {
         Spritesheet.enemy.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'enemy');
         });
+        
         const divBreakPlayerBefore = document.createElement('div');
         divBreakPlayerBefore.className = 'break';
         const spanPlayer = document.createElement('span');
