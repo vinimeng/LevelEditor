@@ -1,5 +1,5 @@
 import Graphics from '../graphics/graphics';
-import { GAME_WIDTH, GAME_HEIGHT } from '../misc/constants';
+import { GAME_WIDTH, GAME_HEIGHT, TILE_SIZE } from '../misc/constants';
 import HTML from '../misc/html';
 import Element from './element';
 
@@ -27,6 +27,7 @@ export default class Game {
     private html: HTML;
     private savedData: string | null;
     private btnSaveMap: HTMLButtonElement;
+    private snapToGrid: HTMLInputElement;
 
     constructor(mapWidth: number = 0, mapHeight: number = 0, savedData: string | null = null) {
         this.mapWidth = mapWidth;
@@ -46,6 +47,7 @@ export default class Game {
         this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
         this.context2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         this.btnSaveMap = document.getElementById('btnSaveMap') as HTMLButtonElement;
+        this.snapToGrid = document.getElementById('snapToGrid') as HTMLInputElement;
 
         this.scale = this.determineScale();
         this.html = new HTML(this.scale);
@@ -190,8 +192,13 @@ export default class Game {
         const sprtIndex = Number(Game.dragged.dataset.index);
         const sprtArray = String(Game.dragged.dataset.array);
         const scrollTop = Game.dragged.parentElement ? Game.dragged.parentElement.scrollTop : 0;
-        const x = Math.round((e.offsetX - Game.dragEvent.clientX + Game.dragged.offsetLeft) / this.scale);
-        const y = Math.round((e.offsetY - Game.dragEvent.clientY + Game.dragged.offsetTop - scrollTop) / this.scale);
+        let x = Math.round((e.offsetX - Game.dragEvent.clientX + Game.dragged.offsetLeft) / this.scale);
+        let y = Math.round((e.offsetY - Game.dragEvent.clientY + Game.dragged.offsetTop - scrollTop) / this.scale);
+
+        if (this.snapToGrid.checked) {
+            x = TILE_SIZE * Math.round(x / TILE_SIZE);
+            y = TILE_SIZE * Math.round(y / TILE_SIZE);
+        }
 
         switch (sprtArray) {
             case 'wall':
@@ -283,8 +290,14 @@ export default class Game {
 
     private mouseUpEventHandler(e: MouseEvent) {
         if (this.mouseDown) {
-            const mouseX = (e.offsetX / this.scale) + this.mouseDown.diffX;
-            const mouseY = (e.offsetY / this.scale) + this.mouseDown.diffY;
+            let mouseX = (e.offsetX / this.scale) + this.mouseDown.diffX;
+            let mouseY = (e.offsetY / this.scale) + this.mouseDown.diffY;
+
+            if (this.snapToGrid.checked) {
+                mouseX = TILE_SIZE * Math.round(mouseX / TILE_SIZE);
+                mouseY = TILE_SIZE * Math.round(mouseY / TILE_SIZE);
+            }
+
             if (this.draggedCanvasElement) {
                 this.draggedCanvasElement.x = mouseX;
                 this.draggedCanvasElement.y = mouseY;

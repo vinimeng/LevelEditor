@@ -157,3 +157,12 @@ input {
 #inputJSON {
     display: none;
 }
+
+#labelSnapToGrid {
+    cursor: pointer;
+}
+
+input[type='checkbox'] { 
+    filter: grayscale(1);
+    cursor: pointer;
+}
