@@ -60,13 +60,13 @@ export default class HTML {
         const divBreakWallAnimBefore = document.createElement('div');
         divBreakWallAnimBefore.className = 'break';
         const spanWallAnim = document.createElement('span');
-        spanWall.innerHTML = 'WallAnim:'
+        spanWallAnim.innerHTML = 'WallAnim:'
         const divBreakWallAnimAfter = document.createElement('div');
         divBreakWallAnimAfter.className = 'break';
         this.elements.append(divBreakWallAnimBefore);
         this.elements.append(spanWallAnim);
         this.elements.append(divBreakWallAnimAfter);
-        Spritesheet.wall.forEach((sprite, index) => {
+        Spritesheet.wallAnim.forEach((sprite, index) => {
             this.appendElements(sprite, index, 'wallAnim');
         });
 
