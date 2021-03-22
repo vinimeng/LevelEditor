@@ -145,3 +145,15 @@ input {
     transform: translate(-50%, -50%);
     display: none;
 }
+
+#btnSaveMap {
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    z-index: 100;
+    display: none;
+}
+
+#inputJSON {
+    display: none;
+}

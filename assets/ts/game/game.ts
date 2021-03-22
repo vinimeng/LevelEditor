@@ -26,6 +26,7 @@ export default class Game {
     private context2D: CanvasRenderingContext2D;
     private html: HTML;
     private savedData: string | null;
+    private btnSaveMap: HTMLButtonElement;
 
     constructor(mapWidth: number = 0, mapHeight: number = 0, savedData: string | null = null) {
         this.mapWidth = mapWidth;
@@ -44,6 +45,7 @@ export default class Game {
         this.divCanvas = document.getElementById('divCanvas') as HTMLDivElement;
         this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
         this.context2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.btnSaveMap = document.getElementById('btnSaveMap') as HTMLButtonElement;
 
         this.scale = this.determineScale();
         this.html = new HTML(this.scale);
@@ -155,15 +157,29 @@ export default class Game {
             return false;
         });
 
-        this.canvas.addEventListener('drop', this.dropEventHandler);
-        this.canvas.addEventListener('mousedown', this.mouseDownEventHandler);
-        this.canvas.addEventListener('mousemove', this.mouseMoveEventHandler);
-        this.canvas.addEventListener('mouseup', this.mouseUpEventHandler);
-        this.canvas.addEventListener('contextmenu', this.contextMenuEventHandler);
+        this.canvas.addEventListener('drop', (e) => {
+            this.dropEventHandler(e);
+        });
+        this.canvas.addEventListener('mousedown', (e) => {
+            this.mouseDownEventHandler(e);
+        });
+        this.canvas.addEventListener('mousemove', (e) => {
+            this.mouseMoveEventHandler(e);
+        });
+        this.canvas.addEventListener('mouseup', (e) => {
+            this.mouseUpEventHandler(e);
+        });
+        this.canvas.addEventListener('contextmenu', (e) => {
+            this.contextMenuEventHandler(e);
+        });
+
+        this.btnSaveMap.addEventListener('click', () => {
+            this.saveMap();
+        });
 
         window.setInterval(() => {
             window.localStorage.setItem('elements', JSON.stringify(this.elements));
-        }, 15000);
+        }, 30000);
     }
 
     private async loadAssets() {
@@ -420,5 +436,22 @@ export default class Game {
                     break;
             }
         }
+    }
+
+    private saveMap() {
+        window.localStorage.clear();
+
+        const mapJSON = {
+            'width': this.mapWidth,
+            'height': this.mapHeight,
+            'elements': this.elements
+        };
+
+        const blob = new Blob([JSON.stringify(mapJSON)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'map.json');
+        a.click();
     }
 }
