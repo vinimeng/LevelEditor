@@ -199,6 +199,11 @@ export default class Game {
                 const sprtW = Graphics.wall[sprtIndex].sprite;
                 this.elements.push(new Element(x, y, sprtW.width, sprtW.height, nameW, sprtArray, sprtW, sprtIndex));
                 break;
+            case 'wallAnim':
+                const nameWA = Graphics.wallAnim[sprtIndex].name;
+                const sprtWA = Graphics.wallAnim[sprtIndex].sprite;
+                this.elements.push(new Element(x, y, sprtWA.width, sprtWA.height, nameWA, sprtArray, sprtWA, sprtIndex));
+                break;
             case 'floor':
                 const nameF = Graphics.floor[sprtIndex].name;
                 const sprtF = Graphics.floor[sprtIndex].sprite;
