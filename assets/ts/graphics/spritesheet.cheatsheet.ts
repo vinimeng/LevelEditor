@@ -1,3 +1,8 @@
+/**
+ * Cheatsheet para o spritesheet.
+ * Contém as coordenadas para cada sprite
+ * possível do spritesheet
+ */
 export const CHEATSHEET: any = {
     'wall': {
         'wall_top_left': [16, 0, 16, 16],

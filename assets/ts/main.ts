@@ -1,13 +1,48 @@
 import Game from './game/game';
 
+/**
+ * Espera o DOM carregar totalmente para
+ * poder realizar alguma tarefa
+ */
 document.addEventListener("DOMContentLoaded", () => {
+    /**
+     * Busca no localStorage a largura de mapa não salvo
+     */
     const mapWidth = window.localStorage.getItem('mapWidth') as string;
+
+    /**
+     * Busca no localStorage a altura de mapa não salvo
+     */
     const mapHeight = window.localStorage.getItem('mapHeight') as string;
+
+    /**
+     * Busca no localStorage os elementos de mapa não salvo
+     */
     const elements = window.localStorage.getItem('elements') as string;
+
+    /**
+     * Guarda div com menu para criar um mapa ou carregar um mapa
+     */
     const chooseResolution = document.getElementById('chooseResolution') as HTMLDivElement;
+
+    /**
+     * Guarda div com aviso de dados não salvos encontrados
+     */
     const unsavedData = document.getElementById('unsavedData') as HTMLDivElement;
+
+    /**
+     * Guarda div onde o canvas está localizado
+     */
     const divCanvas = document.getElementById('divCanvas') as HTMLCanvasElement;
+
+    /**
+     * Guarda botão dos créditos
+     */
     const btnCredits = document.getElementById('btnCredits') as HTMLButtonElement;
+
+    /**
+     * Guarda botão de salvar mapa
+     */
     const btnSaveMap = document.getElementById('btnSaveMap') as HTMLButtonElement;
 
     if (mapWidth && mapHeight && elements) {
@@ -16,6 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
         chooseResolution.style.display = 'block';
     }
 
+    /**
+     * Se for clicado em Yes na div
+     * de dados não salvos, o mapa não salvo anteriormente
+     * irá ser carregado
+     */
     document.getElementById('btnUnsavedDataYes')?.addEventListener('click', () => {
         btnCredits.style.display = 'block';
         btnSaveMap.style.display = 'block';
@@ -24,11 +64,21 @@ document.addEventListener("DOMContentLoaded", () => {
         new Game(parseInt(mapWidth), parseInt(mapHeight), elements).main();
     });
 
+    /**
+     * Se for clicado No na div
+     * de dados não salvos, o menu para criar/carregar um mapa é
+     * mostrado
+     */
     document.getElementById('btnUnsavedDataNo')?.addEventListener('click', () => {
         unsavedData.style.display = 'none';
         chooseResolution.style.display = 'block';
     });
 
+    /**
+     * Se for clicado Create map na div
+     * de criação/carregamento de mapa, é criado um mapa
+     * a partir dos inputs de width e height
+     */
     document.getElementById('btnCreateMap')?.addEventListener('click', () => {
         const inputWidth = document.getElementById('width') as HTMLInputElement;
         const inputHeight = document.getElementById('height') as HTMLInputElement;
@@ -44,6 +94,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    /**
+     * Se for clicado Load map na div
+     * de criação/carregamento de mapa, é criado um mapa
+     * a partir do arquivo JSON feito upload
+     */
     document.getElementById('btnLoadMap')?.addEventListener('click', () => {
         const inputJSON = document.getElementById('inputJSON') as HTMLInputElement;
         inputJSON.addEventListener('change', function() {

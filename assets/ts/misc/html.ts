@@ -1,14 +1,52 @@
 import Spritesheet, { Sprite } from "../graphics/graphics";
 import Game from "../game/game";
 
+/**
+ * Classe para lidar com alguns elementos HTML
+ */
 export default class HTML {
+    /**
+     * Guarda elemento que mostra os FPS
+     * @access public
+     */
     public spanFPS: HTMLSpanElement;
+
+    /**
+     * Guarda botão de créditos
+     * @access public
+     */
     public btnCredits: HTMLButtonElement;
+
+    /**
+     * Guarda modal dos créditos
+     * @access public
+     */
     public modalCredits: HTMLDivElement;
+
+    /**
+     * Guarda botão que mostra/esconde FPS
+     * @access public
+     */
     public btnToggleFPS: HTMLButtonElement;
+
+    /**
+     * Guarda div onde os elementos arrastáveis
+     * são colocados
+     * @access public
+     */
     public elements: HTMLDivElement;
+
+    /**
+     * Guarda a escala de renderização do canvas
+     * @access public
+     */
     private scale: number;
 
+    /**
+     * Construtor da classe HTML
+     * 
+     * @param scale 
+     */
     constructor(scale: number) {
         this.spanFPS = document.getElementById('fpsCounter') as HTMLSpanElement;
         this.btnCredits = document.getElementById('btnCredits') as HTMLButtonElement;
@@ -24,7 +62,15 @@ export default class HTML {
         this.initializeEvents();
     }
 
+    /**
+     * Inicializa eventos de
+     * alguns elementos HTML
+     */
     private initializeEvents() {
+        /**
+         * Adiciona função ao clicar no botão dos créditos,
+         * para mostrar/esconder modal de créditos
+         */
         this.btnCredits.addEventListener('click', () => {
             if(this.modalCredits.style.display === 'none') {
                 this.modalCredits.style.display = 'block';
@@ -33,6 +79,10 @@ export default class HTML {
             }
         });
 
+        /**
+         * Adiciona função ao clicar no botão ToggleFPS,
+         * para mostrar/esconder FPS
+         */
         this.btnToggleFPS.addEventListener('click', () => {
             if(this.spanFPS.style.display === 'block') {
                 this.spanFPS.style.display = 'none';
@@ -42,6 +92,10 @@ export default class HTML {
         });
     }
 
+    /**
+     * Cria elementos arrastáveis
+     * a partir dos sprites disponíveis
+     */
     public createElements() {
 
         const divBreakWallBefore = document.createElement('div');
@@ -173,6 +227,14 @@ export default class HTML {
         this.appendElements(Spritesheet.player, 0, 'player');
     }
 
+    /**
+     * Adiciona elementos arrastáveis
+     * a uma div visível
+     * 
+     * @param sprite 
+     * @param index 
+     * @param array 
+     */
     private appendElements(sprite: Sprite, index: number, array: string) {
         const canvas = document.createElement('canvas');
         canvas.draggable = true;

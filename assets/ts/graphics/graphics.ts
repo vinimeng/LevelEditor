@@ -1,24 +1,104 @@
 import { SPRITESHEET, TILE_SIZE } from "../misc/constants";
 import { CHEATSHEET } from "./spritesheet.cheatsheet";
 
+/**
+ * Tipo para guardar um Sprite
+ */
 export type Sprite = {
     name: string,
     sprite: ImageBitmap
 };
 
+/**
+ * Classe para lidar com os gráficos 
+ * do editor de level
+ */
 export default class Graphics {
+
+    /**
+     * Array contendo os sprites do tipo wall
+     * 
+     * @access public static
+     */
     public static wall = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo wallAnim
+     * 
+     * @access public static
+     */
     public static wallAnim = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo floor
+     * 
+     * @access public static
+     */
     public static floor = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo interactable
+     * 
+     * @access public static
+     */
     public static interactable = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo interactableAnim
+     * 
+     * @access public static
+     */
     public static interactableAnim = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo doors
+     * 
+     * @access public static
+     */
     public static doors = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo weapon
+     * 
+     * @access public static
+     */
     public static weapon = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo potion
+     * 
+     * @access public static
+     */
     public static potion = new Array<Sprite>();
+
+    /**
+     * Array contendo os sprites do tipo enemy
+     * 
+     * @access public static
+     */
     public static enemy = new Array<Sprite>();
+
+    /**
+     * Sprite que identifica o player
+     * 
+     * @access public static
+     */
     public static player: Sprite;
+
+    /**
+     * Imagem do grid para ser usado de
+     * background
+     * 
+     * @access public static
+     */
     public static grid: HTMLImageElement;
 
+    /**
+     * Carrega os sprite e os separa
+     * conforme seu tipo em arrays
+     * 
+     * @param scale 
+     */
     public async loadGraphics(scale: number) {
         const spritesheet = await this.setSpritesheet();
 
@@ -173,6 +253,12 @@ export default class Graphics {
         }
     }
 
+    /**
+     * Carrega spritesheet base,
+     * de onde irão sair os sprites
+     * 
+     * @returns Promise
+     */
     private setSpritesheet() : Promise<HTMLImageElement> {
         const spritesheet = document.createElement('img');
         return new Promise((resolve, reject) => {
@@ -182,6 +268,12 @@ export default class Graphics {
         });
     }
 
+    /**
+     * Cria imagem de um grid dinâmicamente
+     * 
+     * @param scale 
+     * @returns Promise
+     */
     private createGridImage(scale: number) : Promise<HTMLImageElement> {
         const img = document.createElement('img');
         const size = TILE_SIZE * scale;
@@ -204,6 +296,16 @@ export default class Graphics {
         });
     }
 
+    /**
+     * Corta sprite do spritesheet
+     * 
+     * @param spritesheet 
+     * @param x 
+     * @param y 
+     * @param width 
+     * @param height 
+     * @returns Promise
+     */
     private cutSprite(spritesheet: HTMLImageElement, x: number, y: number, width: number, height: number) {
         return createImageBitmap(spritesheet, x, y, width, height);
     }
