@@ -1,13 +1,13 @@
 # LevelEditor
-Level editor for my [game](https://github.com/vinimeng/LearnTypescript).
+Level editor for my [game](https://github.com/vinimeng/LearnTypescript)
 
 ## How to use it
 Clone the repository or download its contents putting the downloaded archives in a HTTP Server like Apache or Nginx
 
 ## How to develop it
-Clone the repository and execute ```npm install``` in the root folder.
+Clone the repository and execute ```npm install``` in the root folder
 
-Execute the build with ```npx webpack``` or execute watch mode with ```npx webpack -w```.
+Execute the build with ```npx webpack``` or execute watch mode with ```npx webpack -w```
 
 ## Credits
 ### Spritesheet
