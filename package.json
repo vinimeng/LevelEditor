@@ -1,8 +1,8 @@
 {
   "name": "level-editor",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "private": true,
-  "description": "Level editor para meu game",
+  "description": "Level editor for my game",
   "scripts": {
     "build": "webpack"
   },

@@ -1,11 +1,16 @@
 @font-face {
     font-family: EquipmentPro;
-    src: url('./../font/EquipmentPro.ttf') format('truetype');
+    src: url('./../font/EquipmentPro.woff') format('woff');
+}
+
+html {
+    height: 98%;
 }
 
 body {
     background-color: #120e10;
     font-family: 'EquipmentPro', sans-serif;
+    height: 100%;
 }
 
 .grid {
